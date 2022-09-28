@@ -13,7 +13,8 @@ export class TransferModalComponent implements OnInit {
   transfer: Transfer;
   isNew: boolean;
 
-  formattedAmount;
+  // keeping this any to switch between number and string
+  formattedAmount: any;
   minDate: string;
 
   constructor(
@@ -29,7 +30,10 @@ export class TransferModalComponent implements OnInit {
   }
 
 
-  formatCurrencyAmount(){
+  /**
+   * formats the amount on focusing out of input for easy readness in german format
+   */
+  public formatCurrencyAmount(){
     if(!isNaN(this.formattedAmount)){
       this.formattedAmount = this.currencyPipe.transform(this.formattedAmount, 'EUR', 'symbol', '1.0-2', 'de');
     } else {
@@ -38,7 +42,10 @@ export class TransferModalComponent implements OnInit {
     }
   }
 
-  unFormatCurrencyAmount(){
+  /**
+   * un formats the amount since it is harder to edit a formatted value with currency symbols
+   */
+  public unFormatCurrencyAmount(){
     if(this.formattedAmount){
       // eslint-disable-next-line max-len
       this.formattedAmount = this.formattedAmount.replace(getCurrencySymbol('EUR', 'narrow','de'),'').trim().replaceAll('.','').replace(',','.');

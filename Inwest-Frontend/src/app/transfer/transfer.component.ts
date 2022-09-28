@@ -41,17 +41,26 @@ export class TransferComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log(data);
         const transfers = JSON.parse(JSON.stringify(data));
         this.dataSource = new MatTableDataSource(transfers);
+        this.refreshSorting();
       }
     });
     this.store.dispatch(getTransfers());
   }
 
   ngAfterViewInit(): void {
+    this.refreshSorting();
+  }
+
+  refreshSorting(){
     this.dataSource.sort = this.sort;
   }
 
 
-  // On input focus: setup filterPredicate to only filter by input column
+  /**
+   * On input focus: setup filterPredicate to only filter by input column
+   *
+   *  @param column relevant column def as a string ex: 'note'
+   */
   setupFilter(column: string) {
     this.dataSource.filterPredicate = (d: MatTableDataSource<any>, filter: string) => {
       const textToSearch = d[column] && d[column].toLowerCase() || '';
@@ -91,6 +100,11 @@ export class TransferComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  /**
+   * delete warning message
+   *
+   * @param data transfer object
+   */
   async onDelete(data: Transfer) {
     const alert = await this.alertController.create({
       header: 'You are about to delete a tranfer record. continue?',
