@@ -2,7 +2,7 @@
 
 ### For the time being I have added both backend and front end to same repository
 
-For Banckend switch to the folder **INWEST-BACKEND**
+-------- For Banckend switch to the folder **INWEST-BACKEND** ------------------
 
 1. You will need node js installed (I'm using **node v14.18.1**)
 
@@ -26,7 +26,7 @@ Import the **postman** request collection via following link.
 
 https://www.getpostman.com/collections/3ff28e1aa3e167972a18
 
-For Frontend switch to the folder **INWEST-FRONTEND** (Sorry I moved with default angular 14, hope it is ok)
+ ---------------------- For Frontend switch to the folder **INWEST-FRONTEND** (Sorry I moved with default angular 14, hope it is ok) ------------------------
 
 1. You will need node js installed (I'm using **node v14.18.1**)
 
