@@ -1,0 +1,90 @@
+<ion-header [translucent]="true">
+    <ion-toolbar color="primary">
+      <ion-title>
+        Transfers
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content [fullscreen]="true">
+
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item fill="outline">
+            <ion-label position="floating">Account Holder</ion-label>
+            <ion-input (ionChange)="applyFilter($event.target.value)" (focusin)="setupFilter('accountHolder')"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item fill="outline">
+            <ion-label position="floating">Note</ion-label>
+            <ion-input (ionChange)="applyFilter($event.target.value)" (focusin)="setupFilter('note')"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  
+          <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
+        
+          <!-- Position Column -->
+          <ng-container matColumnDef="iban">
+            <th mat-header-cell *matHeaderCellDef> IBAN </th>
+            <td mat-cell *matCellDef="let element"> {{element.iban | ibanFormatter}} </td>
+          </ng-container>
+        
+          <!-- Name Column -->
+          <ng-container matColumnDef="accountHolder">
+            <th mat-header-cell *matHeaderCellDef> Account Holder </th>
+            <td mat-cell *matCellDef="let element"> {{element.accountHolder}} </td>
+          </ng-container>
+        
+          <!-- Weight Column -->
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by date"> Date </th>
+            <td mat-cell *matCellDef="let element"> {{element.date | date :'dd.MM.YYYY'}} </td>
+          </ng-container>
+        
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by amount"> Amount </th>
+            <td mat-cell *matCellDef="let element"> {{element.amount | currency:'EUR': 'symbol': '1.0-2': 'de'}} </td>
+          </ng-container>
+      
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="note">
+            <th mat-header-cell *matHeaderCellDef> Note </th>
+            <td mat-cell *matCellDef="let element"> {{element.note}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> Action </th>
+            <td mat-cell *matCellDef="let element"> 
+              <ion-button size="small" (click)="openModal(element, false)">
+                <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+              </ion-button>
+              <ion-button color="danger" size="small" (click)="onDelete(element)">
+                <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+              </ion-button>
+            </td>
+          </ng-container>
+        
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </ion-row>
+    </ion-grid>
+  
+  
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="openModal(null, true)">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  
+    
+  </ion-content>
+  
+  

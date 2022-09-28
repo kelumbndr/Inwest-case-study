@@ -1,0 +1,7 @@
+{
+  "name": "Inwest-Frontend",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

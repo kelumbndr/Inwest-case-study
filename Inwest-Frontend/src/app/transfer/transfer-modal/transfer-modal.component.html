@@ -1,0 +1,131 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-button color="medium" (click)="cancel()">Cancel</ion-button>
+      </ion-buttons>
+      <ion-title>{{isNew ? 'Create Transfer' : 'Update Transfer'}}</ion-title>
+      <ion-buttons slot="end">
+        <ion-button [disabled]="heroForm.invalid" (click)="confirm()">Confirm</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <form #heroForm="ngForm">
+        <ion-grid>
+            <ion-row>
+                <ion-col size="12">
+                    <ion-item fill="outline">
+                        <ion-label position="floating">IBAN</ion-label>
+                        <ion-input
+                            #iban="ngModel"
+                            name="IBAN"
+                            ibanValidator
+                            [required]="true"
+                            [(ngModel)]="transfer.iban" 
+                            placeholder="IBAN"></ion-input>
+                            <span *ngIf="iban.invalid && (iban.dirty || iban.touched)" slot="error">
+                                <div *ngIf="iban.errors.required">
+                                    IBAN is required.
+                                </div>
+                                <div *ngIf="iban.errors.iban">
+                                    IBAN is invalid
+                                </div>
+                            </span>
+                      </ion-item>
+                </ion-col>
+                <ion-col size="12">
+                    <ion-item fill="outline">
+                        <ion-label position="floating">Account Holder</ion-label>
+                        <ion-input 
+                            #accountHolder="ngModel"
+                            name="ACCOUNT_HOLDER" 
+                            [required]="true"
+                            [(ngModel)]="transfer.accountHolder"
+                            placeholder="Account Holder">
+                        </ion-input>
+                        <span *ngIf="accountHolder.invalid && (accountHolder.dirty || accountHolder.touched)" slot="error">
+                            <div *ngIf="accountHolder.errors.required">
+                                Account Holder is required.
+                            </div>
+                        </span>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="6">
+                    <ion-grid>
+                        <ion-row>
+                            <ion-col size="6">
+                                <span class="date-label"> Pick the date </span>
+                            </ion-col>
+                            <ion-col size="6">
+                                <ion-datetime-button datetime="datetime">
+                                    <span slot="date-target">{{transfer.date | date :'dd.MM.YYYY'}}</span>
+                                </ion-datetime-button>
+                            </ion-col>
+                            <ion-modal id="example-modal" [keepContentsMounted]="true">
+                                <ng-template>
+                                        <ion-datetime  
+                                            showDefaultButtons="true"
+                                            presentation="date"
+                                            color="primary" 
+                                            ID="datetime" 
+                                            name="DATE"
+                                            [min]="minDate"
+                                            [(ngModel)]="transfer.date"
+                                            display-format="DD.MM.YYYY">
+                                        </ion-datetime>
+                                </ng-template>
+                            </ion-modal>
+                        </ion-row>
+                    </ion-grid>
+                    
+                </ion-col>
+                <ion-col size="6">
+                    <ion-item fill="outline">
+                        <ion-label position="floating">Amount</ion-label>
+                        <ion-input 
+                            #amount="ngModel"
+                            name="AMOUNT"
+                            appCurrencyValidator
+                            [minCurrencyValue]="50"
+                            [maxCurrencyValue]="20000000"
+                            [minCurrencyLength]="2"
+                            [maxCurrencyLength]="8"
+                            [required]="true"
+                            (focusout)="formatCurrencyAmount()"
+                            (focusin)="unFormatCurrencyAmount()"
+                            [ngModel]="formattedAmount"
+                            (ngModelChange)="transfer.amount=$event; formattedAmount=$event"
+                             placeholder="Amount">
+                        </ion-input>
+                        <span *ngIf="amount.invalid && (amount.dirty || amount.touched)" slot="error">
+                            <div *ngIf="amount.errors.required">
+                                Amount is required.
+                            </div>
+                            <div *ngIf="amount.errors.invalidCurrency">
+                                {{amount.errors.invalidCurrency}}
+                            </div>
+                        </span>
+                      </ion-item>
+                </ion-col>
+                <ion-col size="12">
+                    <ion-item fill="outline">
+                        <ion-label position="floating">Note</ion-label>
+                        <ion-input
+                           #note="ngModel"
+                           name="NOTE"
+                           [required]="true"
+                           [(ngModel)]="transfer.note" 
+                           placeholder="Note">
+                        </ion-input>
+                        <span *ngIf="note.invalid && (note.dirty || note.touched)" slot="error">
+                            <div *ngIf="note.errors.required">
+                                Note is required.
+                            </div>
+                        </span>
+                      </ion-item>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </form>
+    
+  </ion-content>

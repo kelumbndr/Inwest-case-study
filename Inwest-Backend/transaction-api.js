@@ -1,13 +1,61 @@
 const express = require('express');
+const cors = require('cors');
 const Joi = require('joi').extend(require('@joi/date'));
-var IBAN = require('iban');
+const IBAN = require('iban');
 const { randomUUID } = require('crypto');
 
 const app = express();
 
 app.use(express.json());
 
-const transfers = [];
+app.use(cors({
+    origin: '*'
+}));
+
+// using inmemory store since the lack of time
+// I have added five dummy records
+const transfers = [
+    {
+        "id": "a9b2a41c-1d0c-42c3-a047-4d12a1ff7ca9",
+        "iban": "DE91100000000123456789",
+        "accountHolder": "Kelum Bandara",
+        "date": "2022-09-26",
+        "note": "first transaction",
+        "amount": "1000.99"
+    },
+    {
+        "id": "d9269afd-818c-4965-ada6-eceb3bc7b2af",
+        "iban": "DE89370400440532013000",
+        "accountHolder": "John Conner",
+        "date": "2022-09-26",
+        "note": "party spent amount",
+        "amount": "1009.99"
+    },
+    {
+        "id": "53e94fac-917e-4711-8584-764145db619e",
+        "iban": "DE65500105179518162243",
+        "accountHolder": "Sara Conner",
+        "date": "2022-09-25",
+        "note": "fuel amount",
+        "amount": "59.99"
+    },
+    {
+        "id": "0feb54c1-57e3-4d49-8b54-dcabd29b8c52",
+        "iban": "DE14500105176245329617",
+        "accountHolder": "Kyle Reese",
+        "date": "2022-09-24",
+        "note": "new iphone 14",
+        "amount": "1099.99"
+    },
+    {
+        "id": "38a9090c-eecd-4441-ad86-d1e51ef8264c",
+        "iban": "DE43500105171498982131",
+        "accountHolder": "Terminator",
+        "date": "2022-08-24",
+        "note": "new iphone 13",
+        "amount": "799.99"
+    }
+];
 
 app.get('/', (req, res)=>{
     res.send('API is up and running')
@@ -76,7 +124,6 @@ app.put('/api/tranfers/:id', (req, res)=>{
     transfer.date = req.body.date;
     transfer.note = req.body.note;
     transfer.amount = req.body.amount;
-    transfers.push(transfer);
 
     res.send(transfer);
 });
